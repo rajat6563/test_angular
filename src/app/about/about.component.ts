@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.sass']
+  selector: 'app-about',
+  templateUrl: './about.component.html',
+  styleUrls: ['./about.component.sass']
 })
-export class HomeComponent implements OnInit {
+export class AboutComponent implements OnInit {
   fname: string;
   lname: string;
   contact: string;
@@ -17,10 +17,13 @@ export class HomeComponent implements OnInit {
   addEmpObj: any = { fname: '', lname: '', contact: '', address: '', highedu: '', jobProfile: '', techSkills: '', doj: '' };
   empDetailArray = [];
   empDetailArrayCopy = [];
+  empDetailArrayForFilterSelect = [];
   selectedIndex: number = null;
   error: boolean;
   edit = false;
   searchInput: string = null;
+  searchSelectionInput: string = null;
+  selectedEmployeeFromDropdown = {};
 
   constructor() { }
 
@@ -126,5 +129,33 @@ export class HomeComponent implements OnInit {
       }
     });
     console.log(this.empDetailArrayCopy);
+  }
+  searchEmp1() {
+    console.log('inside seachEmp1 function', this.searchInput);
+    this.empDetailArrayCopy = this.empDetailArray.filter((element, i) => {
+      console.log('inside filter function ', element);
+      console.log('inside filter function index', i);
+      if (element.fname.indexOf(this.searchInput) !== -1) {
+         return true;
+      }
+    });
+  }
+  searchSelection() {
+    console.log('inside seachEmp1 function', this.searchSelectionInput);
+    this.empDetailArrayForFilterSelect = this.empDetailArray.filter((element, i) => {
+      console.log('inside filter function ', element);
+      console.log('inside filter function index', i);
+      if (element.fname.indexOf(this.searchSelectionInput) !== -1) {
+         return true;
+      }
+    });
+  }
+  onSelectEmployee(empDetails) {
+    console.log('on onSelectEmployee....', empDetails);
+    this.searchSelectionInput = empDetails.fname;
+    this.selectedEmployeeFromDropdown = empDetails;
+    this.empDetailArrayForFilterSelect = [];
+    // this.searchInput = empDetails.fname;
+    // this.searchEmp1();
   }
 }

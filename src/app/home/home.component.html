@@ -1,82 +1,86 @@
-<div class="row mb-4 pb-4">
+<div class="row">
+<div class="row col-6 mb-4 pb-4">
   <h2 class="text-center" style="width:100%">Employee Registration</h2>
-  <div class="col-md-6 offset-md-3 mt-2">
+  <div class="col-md-6  mt-2">
     <label>First Name</label>
 <input type="text" class="form-control" [(ngModel)]="addEmpObj.fname" (keyup.enter)="addEmpinfo()">
 <span class="badge badge-danger" *ngIf="addEmpObj.fname == ''">Please fill this field</span>
   </div>
-  <div class="col-md-6 offset-md-3 mt-2">
+  <div class="col-md-6  mt-2">
       <label>Last Name</label>
   <input type="text" class="form-control" [(ngModel)]="addEmpObj.lname" (keyup.enter)="addEmpinfo()">
   <span class="badge badge-danger" *ngIf="addEmpObj.lname == ''">Please fill this field</span>
     </div>
-  <div class="col-md-6 offset-md-3 mt-2">
+  <div class="col-md-6  mt-2">
       <label>Address</label>
   <input type="text" class="form-control" [(ngModel)]="addEmpObj.address" (keyup.enter)="addEmpinfo()">
   <span class="badge badge-danger" *ngIf="addEmpObj.address == ''">Please fill this field</span>
     </div>
-  <div class="col-md-6 offset-md-3 mt-2">
+  <div class="col-md-6  mt-2">
       <label>Contact Number</label>
   <input type="text" class="form-control" [(ngModel)]="addEmpObj.contact" (keyup.enter)="addEmpinfo()">
   <span class="badge badge-danger" *ngIf="addEmpObj.contact == ''">Please fill this field</span>
     </div>
-  <div class="col-md-6 offset-md-3 mt-2">
+  <div class="col-md-6  mt-2">
       <label>Highest Education</label>
   <input type="text" class="form-control" [(ngModel)]="addEmpObj.highedu" (keyup.enter)="addEmpinfo()">
   <span class="badge badge-danger" *ngIf="addEmpObj.highedu == ''">Please fill this field</span>
     </div>
-  <div class="col-md-6 offset-md-3 mt-2">
+  <div class="col-md-6  mt-2">
       <label>Job Profile</label>
   <input type="text" class="form-control" [(ngModel)]="addEmpObj.jobProfile" (keyup.enter)="addEmpinfo()">
   <span class="badge badge-danger" *ngIf="addEmpObj.jobProfile == ''">Please fill this field</span>
     </div>
-  <div class="col-md-6 offset-md-3 mt-2">
+  <div class="col-md-6  mt-2">
       <label>Technical Skills</label>
   <input type="text" class="form-control" [(ngModel)]="addEmpObj.techSkills" (keyup.enter)="addEmpinfo()">
   <span class="badge badge-danger" *ngIf="addEmpObj.techSkills == ''">Please fill this field</span>
     </div>
-  <div class="col-md-6 offset-md-3 mt-2">
+  <div class="col-md-6  mt-2">
       <label>Joining Date</label>
   <input type="text" class="form-control" [(ngModel)]="addEmpObj.doj" (keyup.enter)="addEmpinfo()">
   <span class="badge badge-danger" *ngIf="addEmpObj.doj == ''">Please fill this field</span>
     </div>
-  <div class="col-md-6 offset-md-3 mt-2 mb-4">
+  <div class="col-md-6  mt-2 mb-4">
       <button class="btn btn-success" *ngIf="edit == false" [disabled]="(addEmpObj.fname == '' || addEmpObj.lname == '' || addEmpObj.address == '' || addEmpObj.contact == '' || addEmpObj.highedu == '' || addEmpObj.jobProfile == '' || addEmpObj.doj == '' )" (click)="addEmpinfo()">Add Employee</button>
       <button class="btn btn-info" *ngIf="edit == true" [disabled]="(addEmpObj.fname == '' || addEmpObj.lname == '' || addEmpObj.address == '' || addEmpObj.contact == '' || addEmpObj.highedu == '' || addEmpObj.jobProfile == '' || addEmpObj.doj == '' )" (click)="editEmpNewDetails()">Update Employee</button>
     </div>
-    <div class="col-md-12 mt-2 mb-4">
-        <div class="col-md-6 offset-md-3 mt-2">
-            <label>Search Data</label>
-        <input type="text" class="form-control">
-        <button class="btn btn-warning mt-4" (click)="serchEmp()">Search</button>
-          </div>
-
-
-        <table  class="table table-dark">
-          <thead>
-            <th>Name</th>
-            <th>Contact</th>
-            <th>Address</th>
-            <th>Higher Education</th>
-            <th>Job Profile</th>
-            <th>Tech Skills</th>
-            <th>Date of Joining</th>
-            <th>Edit / Delete</th>
-            <th></th>
-          </thead>
-          <tbody>
-            <tr *ngFor="let empdetail of empDetailArray;let i = index;">
-              <td>{{ empdetail.fname }} {{ empdetail.lname }}</td>
-              <td>{{ empdetail. contact }}</td>
-              <td>{{ empdetail.address }}</td>
-              <td>{{ empdetail.highedu }}</td>
-              <td>{{ empdetail.jobProfile }}</td>
-              <td>{{ empdetail.techSkills }}</td>
-              <td>{{ empdetail.doj }}</td>
-              <td><span class="badge badge-success" (click)="editEmpDetails(i)">Edit</span>&nbsp;&nbsp;<span class="badge badge-danger" (click)="delEmp(i)">Delete</span></td>
-
-            </tr>
-          </tbody>
-        </table>
+</div>
+<div class="row col-6">
+  <div class="col-md-12 mt-2 mb-4">
+    <div class="col-12  mt-2">
+        <label>Search Data</label>
+    <input type="text" class="form-control" [(ngModel)]="searchInput">
+    <button class="btn btn-warning mt-4" (click)="searchEmp('button')">Search</button>
       </div>
+
+
+    <table  class="table table-dark mt-2">
+      <thead>
+        <th>Name</th>
+        <th>Contact</th>
+        <th>Address</th>
+        <th>Higher Education</th>
+        <th>Job Profile</th>
+        <th>Tech Skills</th>
+        <th>Date of Joining</th>
+        <th>Edit / Delete</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let empdetail of empDetailArrayCopy;let i = index;">
+          <td>{{ empdetail.fname }} {{ empdetail.lname }}</td>
+          <td>{{ empdetail. contact }}</td>
+          <td>{{ empdetail.address }}</td>
+          <td>{{ empdetail.highedu }}</td>
+          <td>{{ empdetail.jobProfile }}</td>
+          <td>{{ empdetail.techSkills }}</td>
+          <td>{{ empdetail.doj }}</td>
+          <td><span class="badge badge-success" (click)="editEmpDetails(i)">Edit</span>&nbsp;&nbsp;<span class="badge badge-danger" (click)="delEmp(i)">Delete</span></td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 </div>
