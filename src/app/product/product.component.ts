@@ -16,7 +16,7 @@ export class ProductComponent implements OnInit {
   selectedIndex: number = null;
   cartArray = [];
   searchProductInput: string = null;
-  selectedProductFromDropdown = {};
+  selectedProductFromDropdown: any = {};
   proDetailArrayForFilterSelect = [];
   totalCartAmout = '';
   quantity = 1;
@@ -77,26 +77,82 @@ export class ProductComponent implements OnInit {
       }
     });
   }
-  onSelectProduct(pIndex) {
+  onSelectProduct(productObj) {
     // console.log('pindex....', pIndex);
-    this.searchProductInput = pIndex.productName + ' (₹ ' + pIndex.productPrice + ')' ;
-    this.selectedProductFromDropdown = pIndex;
+    this.searchProductInput = productObj.productName + ' (₹ ' + productObj.productPrice + ')' ;
+    this.selectedProductFromDropdown = productObj;
     this.proDetailArrayForFilterSelect = [];
   }
   addToCart() {
-    // console.log('inside addToCart Fucntion.....', this.selectedProductFromDropdown);
-    this.cartArray.push(JSON.parse(JSON.stringify(this.selectedProductFromDropdown)));
-    this.cartArray.push({quantity: 1});
+    console.log('inside addToCart Fucntion.....', this.cartArray);
+    console.log('this.selectedProductFromDropdown ===' , this.selectedProductFromDropdown);
+    console.log('this.selectedProductFromDropdown ===' , this.selectedProductFromDropdown === {});
+    console.log('this.selectedProductFromDropdown.productName ===' , this.selectedProductFromDropdown.productName);
+    if (!this.selectedProductFromDropdown.hasOwnProperty('productName')) {
+      return;
+    }
+    const selectedProductFromDropdownObj: any = {
+      productName: this.selectedProductFromDropdown.productName,
+      productPrice: this.selectedProductFromDropdown.productPrice,
+      quantity: 1
+    };
+    // selectedProductFromDropdownObj.quantity = 1;
+    let productUpdated = false;
+    // tslint:disable-next-line:prefer-for-of
+    for (let j = 0; j < this.cartArray.length; j++) {
+      console.log('inside for loopppp', this.selectedProductFromDropdown);
+      console.log('inside for loopppp', this.cartArray[j]);
+      console.log('inside for loopppp', this.cartArray[j].productName);
+      // console.log('printing ', );
+      if (this.cartArray[j].productName === selectedProductFromDropdownObj.productName) {
+        // tslint:disable-next-line:radix
+        this.cartArray[j].quantity =  parseInt(this.cartArray[j].quantity) + 1;
+        this.cartArray[j].productPrice = parseInt(selectedProductFromDropdownObj.productPrice, 10) * this.cartArray[j].quantity;
+        productUpdated = true;
+      }
+    }
+    if (productUpdated === false) {
+      this.cartArray.push(selectedProductFromDropdownObj);
+    }
     console.log('inside cart array', this.cartArray);
     this.searchProductInput = '';
+    this.selectedProductFromDropdown = {};
+    this.getTotal();
+  }
+
+  getTotal() {
     let totalAmt = 0;
+    // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.cartArray.length; i++) {
         // console.log('inside for loop', this.cartArray[i].productPrice);
-        let cartDataObject = this.cartArray[i];
-        let productPrice = cartDataObject.productPrice;
+        const cartDataObject = this.cartArray[i];
+        const productPrice = cartDataObject.productPrice;
         console.log('inside  product price', productPrice);
         totalAmt = totalAmt + parseInt(productPrice , 10);
     }
     this.totalCartAmout = totalAmt + '';
+  }
+  decQuan(ind) {
+    console.log('inside decrease quantity', this.cartArray[ind].quantity);
+    if (this.cartArray[ind].quantity > 1) {
+    let singlePrice = this.cartArray[ind].productPrice / this.cartArray[ind].quantity;
+    console.log('single price', singlePrice);
+    this.cartArray[ind].quantity = this.cartArray[ind].quantity - 1;
+    this.cartArray[ind].productPrice = parseInt(this.cartArray[ind].productPrice) - singlePrice;
+    console.log('price should decrease', this.cartArray[ind].productPrice);
+    } else {
+      this.cartArray.splice(ind, 1);
+
+    }
+    this.getTotal();
+    }
+  incQuan(ind) {
+    console.log('inside increase quantity', this.cartArray[ind].quantity);
+    let singlePrice = this.cartArray[ind].productPrice / this.cartArray[ind].quantity;
+    console.log('single price increase If function', singlePrice);
+    this.cartArray[ind].quantity = this.cartArray[ind].quantity + 1;
+    this.cartArray[ind].productPrice = parseInt(this.cartArray[ind].productPrice) + singlePrice;
+    console.log('inside increase quantity if condition', this.cartArray[ind].quantity);
+    this.getTotal();
   }
 }

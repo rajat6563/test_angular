@@ -65,11 +65,11 @@
                   <th>Delete</th>
               </thead>
               <tbody>
-                <tr *ngFor="let cartitem of cartArray; let j = index">
+                <tr *ngFor="let cartitem of cartArray;let y = index">
                   <!-- <td>{{ j+1 }}</td> -->
                   <td>{{ cartitem.productName }}</td>
                   <td>₹ {{ cartitem.productPrice }}</td>
-                  <td></td>
+                  <td> <span class="badge badge-success" (click)="decQuan(y)">-</span> {{ cartitem.quantity }} <span class="badge badge-success" (click)="incQuan(y)">+</span></td>
                   <td><span class="badge badge-warning">Edit</span>&nbsp;&nbsp; <span class="badge badge-danger">Delete</span></td>
                 </tr>
               </tbody>
