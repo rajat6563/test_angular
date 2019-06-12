@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppHttpService, AppHttpService2 } from '../app.service';
 
 @Component({
   selector: 'app-product',
@@ -8,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class ProductComponent implements OnInit {
   productName: string;
   productPrice: number;
-  productObj: any = { productName: '', productPrice: ''};
+  productObj: any = { productName: '', productPrice: '' };
   productArray = [];
   productArrayCopy = [];
   editProductstatus = false;
@@ -20,11 +21,32 @@ export class ProductComponent implements OnInit {
   proDetailArrayForFilterSelect = [];
   totalCartAmout = '';
   quantity = 1;
+  title = '';
+  bannerArray = [];
+  errorMsg = '';
 
-  constructor() { }
+
+  constructor(private service: AppHttpService) {
+    console.log('inside constructor................');
+    this.title = this.service.title;
+    console.log('title.............', this.title);
+  }
 
   ngOnInit() {
+    console.log('inside ngOnit...........');
+    this.service.getBanner('jgsdfjdgs').subscribe(result => {
+      console.log('result............', result);
+      let res: any = result;
+      if (res.length > 0) {
+        this.bannerArray = res;
+      }
+    }, error => {
+      console.log('inside error while calling service');
+      console.log('error.......', error);
+      this.errorMsg = 'Some error ocured';
+    });
   }
+
   addProduct() {
     console.log('inside addProduct function', this.productObj);
     if (this.productObj.productName === '' || this.productObj.productPrice === '') {
@@ -73,7 +95,7 @@ export class ProductComponent implements OnInit {
       // console.log('inside filter function ', element);
       // console.log('inside filter function index', i);
       if (element.productName.indexOf(this.searchProductInput) !== -1) {
-         return true;
+        return true;
       }
     });
   }
