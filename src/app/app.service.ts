@@ -17,7 +17,7 @@ export class AppHttpService {
     }
 
     public getBanner(appTitle) {
-        return this.http.get('http://365days4u.com//365api/banner.php?appname=' + appTitle);
+        return this.http.get('http://365days4u.com/365api/banner.php?appname=' + appTitle);
     }
 }
 
